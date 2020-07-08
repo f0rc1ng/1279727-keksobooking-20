@@ -53,8 +53,6 @@ var getArrRandomLength = function (arr) {
   return result;
 };
 
-
-
 var getData = function () {
   var randomArr = [];
   for (var i = 1; i <= ADS_QUANTITY; i++) {
@@ -148,7 +146,6 @@ var plural = function (number, one, several, plenty) {
 
 // Функция карточки объявления
 var getCard = function (value) {
-  console.log(value)
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = cardTemplate.cloneNode(true);
 
@@ -264,7 +261,7 @@ roomsSelect.addEventListener('change', function () {
 });
 
 var validateGuests = function () {
-  if ((roomsSelect.value == 100 && capacitySelect.value > 0) || (roomsSelect.value != 100 && capacitySelect.value == 0)) {
+  if ((roomsSelect.value === '100' && capacitySelect.value > 0) || (roomsSelect.value !== '100' && capacitySelect.value === '0')) {
     capacitySelect.setCustomValidity('Для 100 комнат доступен только вариант Не для гостей');
   } else if (capacitySelect.value > roomsSelect.value) {
     capacitySelect.setCustomValidity('Гостям будет тесно, выберите меньшее количество гостей');
@@ -286,20 +283,17 @@ priceSelect.addEventListener('change', function () {
 });
 
 var setMinPrice = function () {
-  if (typeSelect.value == 'bungalo') {
+  if (typeSelect.value === 'bungalo') {
     priceSelect.placeholder = 0;
-    priceSelect.setAttribute('min', '0')
-  }
-  else if (typeSelect.value == 'flat') {
+    priceSelect.setAttribute('min', '0');
+  } else if (typeSelect.value === 'flat') {
     priceSelect.placeholder = 1000;
-    priceSelect.setAttribute('min', '1000')
-  }
-  else if (typeSelect.value == 'house') {
+    priceSelect.setAttribute('min', '1000');
+  } else if (typeSelect.value === 'house') {
     priceSelect.placeholder = 5000;
-    priceSelect.setAttribute('min', '5000')
-  }
-  else if (typeSelect.value == 'palace') {
+    priceSelect.setAttribute('min', '5000');
+  } else if (typeSelect.value === 'palace') {
     priceSelect.placeholder = 10000;
-    priceSelect.setAttribute('min', '10000')
+    priceSelect.setAttribute('min', '10000');
   }
-}
+};
