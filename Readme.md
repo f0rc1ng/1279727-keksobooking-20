@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 - Студент: [Дмитрий Безгрешнов](https://up.htmlacademy.ru/javascript/20/user/1279727).
-- Наставник: [Никита Сигов](https://htmlacademy.ru/profile/crazer).
+- Наставник: [Ксения Толстых](https://htmlacademy.ru/profile/id618277).
 
 ---
 
