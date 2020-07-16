@@ -20,6 +20,7 @@
 
     mapFeaturesFilter.disabled = state;
   };
+
   blockMapFilter(true);
   blockFormFilter(true);
 
@@ -62,18 +63,23 @@
   });
 
   var setMinPrice = function () {
-    if (typeSelect.value === 'bungalo') {
-      priceSelect.placeholder = 0;
-      priceSelect.setAttribute('min', '0');
-    } else if (typeSelect.value === 'flat') {
-      priceSelect.placeholder = 1000;
-      priceSelect.setAttribute('min', '1000');
-    } else if (typeSelect.value === 'house') {
-      priceSelect.placeholder = 5000;
-      priceSelect.setAttribute('min', '5000');
-    } else if (typeSelect.value === 'palace') {
-      priceSelect.placeholder = 10000;
-      priceSelect.setAttribute('min', '10000');
+    switch (typeSelect.value) {
+      case 'bungalo':
+        priceSelect.placeholder = 0;
+        priceSelect.setAttribute('min', '0');
+        break;
+      case 'flat':
+        priceSelect.placeholder = 1000;
+        priceSelect.setAttribute('min', '1000');
+        break;
+      case 'house':
+        priceSelect.placeholder = 5000;
+        priceSelect.setAttribute('min', '5000');
+        break;
+      case 'palace':
+        priceSelect.placeholder = 10000;
+        priceSelect.setAttribute('min', '10000');
+        break;
     }
   };
 
