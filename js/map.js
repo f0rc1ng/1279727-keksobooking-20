@@ -13,7 +13,7 @@
   var activatePage = function () {
     activateMap();
     window.pin.renderPins();
-    window.util.activatePins();
+    // window.util.activatePins();
   };
 
   window.map = {
