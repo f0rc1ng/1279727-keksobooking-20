@@ -94,7 +94,7 @@
       if (dragged) {
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          mainMapPin.removeEventListener('click', onClickPreventDefault)
+          mainMapPin.removeEventListener('click', onClickPreventDefault);
         };
         mainMapPin.addEventListener('click', onClickPreventDefault);
       }

@@ -4,7 +4,7 @@
 
   var map = document.querySelector('.map');
 
-  // map.insertBefore(window.card.getCard(window.pin.resultData[0]), window.card.filtersContainer);
+  map.insertBefore(window.card.getCard(window.pin.resultData[0]), window.card.filtersContainer);
 
   var activateMap = function () {
     map.classList.remove('map--faded');
