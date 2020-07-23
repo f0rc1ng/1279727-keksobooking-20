@@ -4,9 +4,15 @@
 
   var HALF_MAIN_PIN_X = 31;
   var MAIN_PIN_Y = 84;
+  var PIN_LEFT_END = -32;
+  var PIN_RIGHT_END = 1170;
+  var PIN_TOP_END = 45;
+  var PIN_BOTTOM_END = 547;
 
 
   var mainMapPin = document.querySelector('.map__pin--main');
+  mainMapPin.style.zIndex = 2;
+
   var fillAddress = function () {
     var adressInput = document.querySelector('#address');
     var mainPinLocationTop = parseInt(mainMapPin.style.top, 10);
@@ -17,24 +23,26 @@
 
   fillAddress();
 
-  // Активация страницы и разблокировка
-  mainMapPin.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
-      window.map.activatePage();
-      window.form.blockMapFilter(false);
-      window.form.blockFormFilter(false);
-      window.form.activateForm();
-    }
-  });
 
-  mainMapPin.addEventListener('keydown', function (evt) {
-    if (evt.code === 'Enter') {
+  // mycomments: вынесла все в функцию, чтобы можно было по ссылке от нее отписаться
+  // получается мы подписываемся на mousedown и keydown activatePage
+  // и как только любая их них срабатывает отписываемся от обоих
+
+  var activatePage = function (evt) {
+    if (evt.button === 0 || evt.code === 'Enter') {
       window.map.activatePage();
       window.form.blockMapFilter(false);
       window.form.blockFormFilter(false);
       window.form.activateForm();
     }
-  });
+
+    mainMapPin.removeEventListener('mousedown', activatePage);
+    mainMapPin.removeEventListener('keydown', activatePage);
+  };
+
+  // Активация страницы и разблокировка
+  mainMapPin.addEventListener('mousedown', activatePage);
+  mainMapPin.addEventListener('keydown', activatePage);
 
   mainMapPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -44,13 +52,8 @@
       y: evt.clientY
     };
 
-
-    var dragged = false;
-
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
-      dragged = true;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -66,21 +69,17 @@
       mainMapPin.style.top = (mainMapPin.offsetTop - shift.y) + 'px';
       mainMapPin.style.left = (mainMapPin.offsetLeft - shift.x) + 'px';
 
-      if (mainMapPin.offsetLeft <= -32) {
+      if (mainMapPin.offsetLeft <= PIN_LEFT_END) {
         mainMapPin.style.left = (mainMapPin.offsetLeft + shift.x) + 'px';
-      } else if (mainMapPin.offsetLeft >= 1170) {
+      } else if (mainMapPin.offsetLeft >= PIN_RIGHT_END) {
         mainMapPin.style.left = (mainMapPin.offsetLeft + shift.x) + 'px';
       }
 
-      if (mainMapPin.offsetTop <= 45) {
+      if (mainMapPin.offsetTop <= PIN_TOP_END) {
         mainMapPin.style.top = (mainMapPin.offsetTop + shift.y) + 'px';
-      } else if (mainMapPin.offsetTop >= 547) {
+      } else if (mainMapPin.offsetTop >= PIN_BOTTOM_END) {
         mainMapPin.style.top = (mainMapPin.offsetTop + shift.y) + 'px';
       }
-
-      // if (mainMapPin.offsetLeft <= -32 || mainMapPin.offsetLeft >= 1168 || mainMapPin.offsetTop <= 130 || mainMapPin.offsetTop >= 630) {
-      //   return;
-      // }
 
     };
 
@@ -90,14 +89,6 @@
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-
-      if (dragged) {
-        var onClickPreventDefault = function (clickEvt) {
-          clickEvt.preventDefault();
-          mainMapPin.removeEventListener('click', onClickPreventDefault);
-        };
-        mainMapPin.addEventListener('click', onClickPreventDefault);
-      }
     };
 
     document.addEventListener('mousemove', onMouseMove);

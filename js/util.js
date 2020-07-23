@@ -1,66 +1,52 @@
 'use strict';
 
 (function () {
+  /*
+  * Константы
+  * */
+  var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
 
-  window.map.map.insertBefore(window.card.getCard(window.pin.resultData[0]), window.card.filtersContainer);
-
-
-  var popupClose = document.querySelector('.popup__close');
-  var popupOpen = document.querySelector('.map__pin');
-  var popup = document.querySelector('.popup');
-
-  var onPopupEscPress = function (evt) {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      closePopup();
+  /*
+   * Хэндлеры
+   * */
+  // Хэндлер на нажатие клавиши Esc, принимает параметрами эвент и функцию, которую необходимо выполнить
+  var isEscapeEvent = function (evt, action) {
+    if (evt.key === ESC_KEY) {
+      action();
+    }
+  };
+  // Хэндлер на нажатие клавиши Enter, принимает параметрами эвент и функцию, которую необходимо выполнить
+  var isEnterEvent = function (evt, action) {
+    if (evt.key === ENTER_KEY) {
+      action();
     }
   };
 
-  var openPopup = function () {
-    popup.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-  };
+  // mycomments: вот эта твоя функция идеально подхлодит для блока utils
 
-  var closePopup = function () {
-    popup.classList.add('hidden');
-
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  popupOpen.addEventListener('click', function () {
-    openPopup();
-  });
-
-  popupOpen.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      openPopup();
+  // функция склонения
+  var plural = function (number, one, several, plenty) {
+    number = Math.abs(number);
+    number %= 100;
+    if (number >= 5 && number <= 20) {
+      return number + plenty;
     }
-  });
+    number %= 10;
+    if (number === 1) {
+      return number + one;
+    }
+    if (number >= 2 && number <= 4) {
+      return number + several;
+    }
+    return number + plenty;
+  };
 
-  popupClose.addEventListener('click', function () {
-    closePopup();
-  });
-
-
-  // var addThumbnailClickHandler = function (thumbnail, photo) {
-  //   thumbnail.addEventListener('click', function () {
-  //     window.map.map.insertBefore(window.card.getCard(photo), window.card.filtersContainer);
-  //   });
-  // };
-
-
-  // var activatePins = function () {
-
-  //   var popupOpen = document.querySelectorAll('.map__pin');
-  //   for (var i = 0; i < popupOpen.length; i++) {
-  //     addThumbnailClickHandler(popupOpen[i], window.pin.resultData[i]);
-  //   }
-
-  // };
-
-  // window.util = {
-  //   activatePins: activatePins
-  // };
+  window.util = {
+    isEnterEvent: isEnterEvent,
+    isEscapeEvent: isEscapeEvent,
+    plural: plural
+  };
 
 })();
 

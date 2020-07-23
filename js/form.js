@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FORM = document.querySelector('.ad-form');
 
   // Блокирует поля формы при открытии страницы
   var blockFormFilter = function (state) {
@@ -82,6 +83,20 @@
         break;
     }
   };
+
+  var onTimeChange = function (evt) {
+    if (evt.target.id === 'timein') {
+      FORM.querySelector('#timeout').value = evt.target.value;
+    } else {
+      FORM.querySelector('#timein').value = evt.target.value;
+    }
+  };
+
+  var timeInElement = FORM.querySelector('#timein');
+  var timeOutElement = FORM.querySelector('#timeout');
+
+  timeInElement.addEventListener('change', onTimeChange);
+  timeOutElement.addEventListener('change', onTimeChange);
 
   window.form = {
     blockMapFilter: blockMapFilter,

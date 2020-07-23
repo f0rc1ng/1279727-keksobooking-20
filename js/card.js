@@ -12,37 +12,44 @@
     bungalo: 'Бунгало'
   };
 
-  var filtersContainer = document.querySelector('.map__filters-container');
-
-
-  // функция склонения
-  var plural = function (number, one, several, plenty) {
-    number = Math.abs(number);
-    number %= 100;
-    if (number >= 5 && number <= 20) {
-      return number + plenty;
-    }
-    number %= 10;
-    if (number === 1) {
-      return number + one;
-    }
-    if (number >= 2 && number <= 4) {
-      return number + several;
-    }
-    return number + plenty;
-  };
-
-
-  // Функция карточки объявления
-  var getCard = function (value) {
+  var initCard = function () {
+    // mycomments: создаем карточку
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
+
+    return cardElement;
+  };
+
+  var hideCard = function () {
+    cardElement.classList.add('hidden');
+
+    document.removeEventListener('keydown', onPinEscPress);
+  };
+
+  var showCard = function () {
+    cardElement.classList.remove('hidden');
+
+    document.addEventListener('keydown', onPinEscPress);
+  };
+
+  // mycomments: с помощью getCard возвращаем саму карточку для добавления на карту
+  var getCard = function () {
+    return cardElement;
+  };
+
+  var onPinEscPress = function (evt) {
+    window.util.isEscapeEvent(evt, hideCard);
+  };
+
+  // Функция карточки объявления
+  var openCard = function (value) {
+    showCard();
 
     cardElement.querySelector('.popup__title').textContent = value.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = value.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = value.offer.price + ' ₽/ночь';
     cardElement.querySelector('.popup__type').textContent = typesoOffers[value.offer.type];
-    cardElement.querySelector('.popup__text--capacity').textContent = plural(value.offer.rooms, ' комната для ', ' комнаты для ', ' комнат для ') + plural(value.offer.guests, ' гостя', ' гостей', ' гостей');
+    cardElement.querySelector('.popup__text--capacity').textContent = window.util.plural(value.offer.rooms, ' комната для ', ' комнаты для ', ' комнат для ') + window.util.plural(value.offer.guests, ' гостя', ' гостей', ' гостей');
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + value.offer.checkin + ', выезд до ' + value.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = value.offer.description;
     cardElement.querySelector('.popup__avatar').src = value.author.avatar;
@@ -74,12 +81,23 @@
       popupPhotos.appendChild(newPhoto);
     }
 
-    return cardElement;
   };
 
+  // mycomments: создаем карточку один раз и храним ее внутри модуля card
+  var cardElement = initCard();
+
+  // mycomments: прячем карточку потому что она нам не нужна
+  hideCard();
+
+  // mycomments: тут же где создаем карточку подписываемся на то чтобы она пряталась когда мы жмем на close
+  // вот тут можно добавить и событие на escape
+  cardElement.querySelector('.popup__close').addEventListener('click', function () {
+    hideCard();
+  });
+
   window.card = {
-    filtersContainer: filtersContainer,
-    getCard: getCard
+    getCard: getCard,
+    openCard: openCard
   };
 
 })();
