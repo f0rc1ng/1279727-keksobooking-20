@@ -13,7 +13,6 @@
   };
 
   var initCard = function () {
-    // mycomments: создаем карточку
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
 
@@ -32,7 +31,6 @@
     document.addEventListener('keydown', onPinEscPress);
   };
 
-  // mycomments: с помощью getCard возвращаем саму карточку для добавления на карту
   var getCard = function () {
     return cardElement;
   };
@@ -41,7 +39,6 @@
     window.util.isEscapeEvent(evt, hideCard);
   };
 
-  // Функция карточки объявления
   var openCard = function (value) {
     showCard();
 
@@ -83,14 +80,10 @@
 
   };
 
-  // mycomments: создаем карточку один раз и храним ее внутри модуля card
   var cardElement = initCard();
 
-  // mycomments: прячем карточку потому что она нам не нужна
   hideCard();
 
-  // mycomments: тут же где создаем карточку подписываемся на то чтобы она пряталась когда мы жмем на close
-  // вот тут можно добавить и событие на escape
   cardElement.querySelector('.popup__close').addEventListener('click', function () {
     hideCard();
   });

@@ -14,8 +14,6 @@
 
   var onPinClicked = function (data) {
     return function () {
-      // mycomments: вот тут как бы открываем карточку, на самом деле она у нас уже есть и спрятана
-      // просто заносим в нее новый данные
       window.card.openCard(data);
     };
   };
@@ -35,34 +33,28 @@
     return pinElement;
   };
 
-  var renderPins = function () {
+  var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.offers.length; i++) {
-      if (window.offers[i].author.avatar === DEFAULT_IMG_PIN) {
+    for (var i = 0; i < pins.length; i++) {
+      if (pins[i].author.avatar === DEFAULT_IMG_PIN) {
         continue;
 
       } else {
-        var pinData = window.offers[i];
+        var pinData = pins[i];
         var pin = renderPin(pinData);
 
-
-        // mycomments: вешаем слушателя чтобы на клик открывалась карточка, тут же можно повешать слушателя на enter
         pin.addEventListener('click', onPinClicked(pinData));
         fragment.appendChild(pin);
       }
-
     }
 
     similarPinList.appendChild(fragment);
   };
   var mainContainer = document.querySelector('main');
 
-  window.offers = [];
-
   var onSuccess = function (data) {
-    window.offers = data;
-    renderPins();
+    renderPins(data);
 
   };
 
@@ -87,10 +79,22 @@
     mainContainer.appendChild(errorElement);
   };
 
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (el) {
+      el.remove();
+    });
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+  };
+
   window.pin = {
     renderPins: renderPins,
     onError: onError,
-    onSuccess: onSuccess
+    onSuccess: onSuccess,
+    removePins: removePins
   };
 
 })();
