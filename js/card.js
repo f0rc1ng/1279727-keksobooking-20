@@ -90,7 +90,8 @@
 
   window.card = {
     getCard: getCard,
-    openCard: openCard
+    openCard: openCard,
+    hideCard: hideCard
   };
 
 })();

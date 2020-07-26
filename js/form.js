@@ -2,8 +2,10 @@
 
 (function () {
   var form = document.querySelector('.ad-form');
+  // var filterForm = document.querySelector('.map__filters');
   var mainMapPin = document.querySelector('.map__pin--main');
   mainMapPin.style.zIndex = 2;
+
 
   var blockFormFilter = function (state) {
     var formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -102,10 +104,11 @@
     form.classList.add('ad-form--disabled');
     form.reset();
     window.pin.removePins();
+    window.card.hideCard();
     window.form.blockMapFilter(true);
     window.form.blockFormFilter(true);
 
-    mainMapPin.addEventListener('mouseup', window.mainPin.activatePage);
+    mainMapPin.addEventListener('mousedown', window.mainPin.activatePage);
     mainMapPin.addEventListener('keydown', window.mainPin.activatePage);
   };
 
@@ -146,10 +149,9 @@
       if (evt.key === 'Escape') {
         error.remove();
       }
-      window.removeEventListener('click', closeError);
+      errorButton.removeEventListener('click', closeError);
       window.removeEventListener('keydown', closeError);
     };
-    window.addEventListener('click', closeError);
     errorButton.addEventListener('click', closeError);
     window.addEventListener('keydown', closeError);
   };

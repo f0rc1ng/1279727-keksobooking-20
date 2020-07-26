@@ -4,7 +4,6 @@
 
   var PIN_X_OFFSET = 25;
   var PIN_Y_OFFSET = 70;
-  var DEFAULT_IMG_PIN = 'img/avatars/default.png';
 
   var similarPinList = document.querySelector('.map__pins');
   var similarPinTemplate = document
@@ -35,18 +34,15 @@
 
   var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
-
+    removePins();
+    window.card.hideCard();
     for (var i = 0; i < pins.length; i++) {
-      if (pins[i].author.avatar === DEFAULT_IMG_PIN) {
-        continue;
+      var pinData = pins[i];
+      var pin = renderPin(pinData);
 
-      } else {
-        var pinData = pins[i];
-        var pin = renderPin(pinData);
+      pin.addEventListener('click', onPinClicked(pinData));
+      fragment.appendChild(pin);
 
-        pin.addEventListener('click', onPinClicked(pinData));
-        fragment.appendChild(pin);
-      }
     }
 
     similarPinList.appendChild(fragment);
@@ -54,8 +50,8 @@
   var mainContainer = document.querySelector('main');
 
   var onSuccess = function (data) {
-    renderPins(data);
-
+    window.offers = data;
+    renderPins(window.filter.filterPins(data));
   };
 
   var onError = function (message) {
@@ -84,10 +80,6 @@
     pins.forEach(function (el) {
       el.remove();
     });
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
   };
 
   window.pin = {
