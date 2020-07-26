@@ -23,11 +23,6 @@
 
   fillAddress();
 
-
-  // mycomments: вынесла все в функцию, чтобы можно было по ссылке от нее отписаться
-  // получается мы подписываемся на mousedown и keydown activatePage
-  // и как только любая их них срабатывает отписываемся от обоих
-
   var activatePage = function (evt) {
     if (evt.button === 0 || evt.code === 'Enter') {
       window.map.activatePage();
@@ -40,7 +35,6 @@
     mainMapPin.removeEventListener('keydown', activatePage);
   };
 
-  // Активация страницы и разблокировка
   mainMapPin.addEventListener('mousedown', activatePage);
   mainMapPin.addEventListener('keydown', activatePage);
 
@@ -94,6 +88,10 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.mainPin = {
+    activatePage: activatePage
+  };
 
 })();
 
