@@ -23,7 +23,7 @@
 
   fillAddress();
 
-  var activatePage = function (evt) {
+  var activatePageHandler = function (evt) {
     if (evt.button === 0 || evt.code === 'Enter') {
       window.map.activatePage();
       window.form.blockMapFilter(false);
@@ -31,12 +31,12 @@
       window.form.activateForm();
     }
 
-    mainMapPin.removeEventListener('mousedown', activatePage);
-    mainMapPin.removeEventListener('keydown', activatePage);
+    mainMapPin.removeEventListener('mousedown', activatePageHandler);
+    mainMapPin.removeEventListener('keydown', activatePageHandler);
   };
 
-  mainMapPin.addEventListener('mousedown', activatePage);
-  mainMapPin.addEventListener('keydown', activatePage);
+  mainMapPin.addEventListener('mousedown', activatePageHandler);
+  mainMapPin.addEventListener('keydown', activatePageHandler);
 
   mainMapPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -90,7 +90,7 @@
   });
 
   window.mainPin = {
-    activatePage: activatePage
+    activatePageHandler: activatePageHandler
   };
 
 })();

@@ -13,6 +13,7 @@
     activateMap();
     window.ajax.load(window.pin.onSuccess, window.pin.onError);
     map.insertBefore(window.card.getCard(), filtersContainer);
+
   };
 
   window.map = {

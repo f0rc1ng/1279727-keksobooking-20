@@ -2,7 +2,6 @@
 
 (function () {
   var form = document.querySelector('.ad-form');
-  // var filterForm = document.querySelector('.map__filters');
   var mainMapPin = document.querySelector('.map__pin--main');
   mainMapPin.style.zIndex = 2;
 
@@ -35,14 +34,14 @@
   var capacitySelect = document.querySelector('#capacity');
 
   capacitySelect.addEventListener('change', function () {
-    validateGuests();
+    validateGuestsHandler();
   });
 
   roomsSelect.addEventListener('change', function () {
-    validateGuests();
+    validateGuestsHandler();
   });
 
-  var validateGuests = function () {
+  var validateGuestsHandler = function () {
     if ((roomsSelect.value === '100' && capacitySelect.value > 0) || (roomsSelect.value !== '100' && capacitySelect.value === '0')) {
       capacitySelect.setCustomValidity('Для 100 комнат доступен только вариант Не для гостей');
     } else if (capacitySelect.value > roomsSelect.value) {
@@ -57,14 +56,14 @@
   var priceSelect = document.querySelector('#price');
 
   typeSelect.addEventListener('change', function () {
-    setMinPrice();
+    setMinPriceHandler();
   });
 
   priceSelect.addEventListener('change', function () {
-    setMinPrice();
+    setMinPriceHandler();
   });
 
-  var setMinPrice = function () {
+  var setMinPriceHandler = function () {
     switch (typeSelect.value) {
       case 'bungalo':
         priceSelect.placeholder = 0;
@@ -108,8 +107,8 @@
     window.form.blockMapFilter(true);
     window.form.blockFormFilter(true);
 
-    mainMapPin.addEventListener('mousedown', window.mainPin.activatePage);
-    mainMapPin.addEventListener('keydown', window.mainPin.activatePage);
+    mainMapPin.addEventListener('mousedown', window.mainPin.activatePageHandler);
+    mainMapPin.addEventListener('keydown', window.mainPin.activatePageHandler);
   };
 
   var formSuccess = function () {
@@ -119,7 +118,7 @@
     document.querySelector('main').appendChild(successMessage);
     var close = document.querySelector('.success');
 
-    var closeSuccess = function (evt) {
+    var closeSuccessHandler = function (evt) {
       evt.preventDefault();
       if (evt.which === 1) {
         close.remove();
@@ -127,11 +126,11 @@
       if (evt.key === 'Escape') {
         close.remove();
       }
-      window.removeEventListener('click', closeSuccess);
-      window.removeEventListener('keydown', closeSuccess);
+      window.removeEventListener('click', closeSuccessHandler);
+      window.removeEventListener('keydown', closeSuccessHandler);
     };
-    window.addEventListener('click', closeSuccess);
-    window.addEventListener('keydown', closeSuccess);
+    window.addEventListener('click', closeSuccessHandler);
+    window.addEventListener('keydown', closeSuccessHandler);
   };
 
   var formErrors = function () {
@@ -141,7 +140,7 @@
     var error = document.querySelector('.error');
     var errorButton = errorMessage.querySelector('.error__button');
 
-    var closeError = function (evt) {
+    var closeErrorHandler = function (evt) {
       evt.preventDefault();
       if (evt.which === 1) {
         error.remove();
@@ -149,11 +148,11 @@
       if (evt.key === 'Escape') {
         error.remove();
       }
-      errorButton.removeEventListener('click', closeError);
-      window.removeEventListener('keydown', closeError);
+      errorButton.removeEventListener('click', closeErrorHandler);
+      window.removeEventListener('keydown', closeErrorHandler);
     };
-    errorButton.addEventListener('click', closeError);
-    window.addEventListener('keydown', closeError);
+    errorButton.addEventListener('click', closeErrorHandler);
+    window.addEventListener('keydown', closeErrorHandler);
   };
 
   var submitHandler = function (evt) {
@@ -161,6 +160,10 @@
     evt.preventDefault();
   };
   form.addEventListener('submit', submitHandler);
+
+  var resetButton = document.querySelector('.ad-form__reset');
+  resetButton.addEventListener('click', deactivateForm);
+
 
   window.form = {
     blockMapFilter: blockMapFilter,
