@@ -1,10 +1,11 @@
 'use strict';
 
 (function () {
+  var MAIN_PIN_LEFT = 570;
+  var MAIN_PIN_TOP = 375;
   var form = document.querySelector('.ad-form');
   var mainMapPin = document.querySelector('.map__pin--main');
   mainMapPin.style.zIndex = 2;
-
 
   var blockFormFilter = function (state) {
     var formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -161,8 +162,15 @@
   };
   form.addEventListener('submit', submitHandler);
 
+  var resetSite = function () {
+    deactivateForm();
+    mainMapPin.style.left = MAIN_PIN_LEFT + 'px';
+    mainMapPin.style.top = MAIN_PIN_TOP + 'px';
+    window.mainPin.fillAddress();
+  };
+
   var resetButton = document.querySelector('.ad-form__reset');
-  resetButton.addEventListener('click', deactivateForm);
+  resetButton.addEventListener('click', resetSite);
 
 
   window.form = {

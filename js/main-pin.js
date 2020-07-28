@@ -90,7 +90,8 @@
   });
 
   window.mainPin = {
-    activatePageHandler: activatePageHandler
+    activatePageHandler: activatePageHandler,
+    fillAddress: fillAddress
   };
 
 })();
